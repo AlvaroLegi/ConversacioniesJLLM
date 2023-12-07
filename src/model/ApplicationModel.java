@@ -4,6 +4,9 @@
  */
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author Alvaro
@@ -11,10 +14,13 @@ package model;
 public class ApplicationModel {
 
     private Conversacion conversacion;
+    private IRepository repository;
+    private ArrayList<Conversacion> conversaciones;
+    private ILLM llm;
     
-    public void nuevaConversacion(String nombreChat){
+    public void nuevaConversacion(){
         if(this.conversacion==null){
-            this.conversacion=new Conversacion(nombreChat);
+            this.conversacion=new Conversacion(this.llm.getIdentifier());
         }
         
         String input;
@@ -24,6 +30,24 @@ public class ApplicationModel {
             
         }while(input != "\salir");
     }
+    
+    public ArrayList listarConversaciones(){
+        ArrayList<Conversacion> conversacionesCopia = new ArrayList<Conversacion>();
+        
+        for(Conversacion conv : conversaciones){
+            conversacionesCopia.add(conv);
+        }
+        
+        return conversacionesCopia;
+    }
+
+    public ApplicationModel(Conversacion conversacion, IRepository repository, ArrayList<Conversacion> conversaciones, ILLM llm) {
+        this.conversacion = conversacion;
+        //this.repository = repository;
+        this.conversaciones = new ArrayList<Conversacion>();
+        //this.llm = llm;
+    }
+
     
     
     

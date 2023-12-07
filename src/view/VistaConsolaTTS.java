@@ -11,11 +11,7 @@ import controller.ApplicationController;
  * @author Alvaro
  */
 public class VistaConsolaTTS extends ApplicationView {
-
-    public VistaConsolaTTS(ApplicationController c) {
-        super(c);
-    }
-
+ 
     @Override
     public void mostrarInicio() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

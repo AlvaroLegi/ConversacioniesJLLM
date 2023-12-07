@@ -22,12 +22,26 @@ public class Conversacion {
         
     }
 
-    @Override
-    public String toString() {
+    public String estadoConversacion() {
         
         
         
         return fechaInicioSegs + "|" + mensajes.size() + "|" + mensajes.get(0).sacar20Chars() ;
+    }
+    
+    public void mostrarConversacion(){
+        if(mensajes.isEmpty()){
+            System.out.println("La conversacion esta vacia");
+            
+        }
+        else{
+            for(Message mensaje : mensajes){
+                System.out.printf(mensaje.toString());
+            }
+        }
+        
+        
+        
     }
     
     

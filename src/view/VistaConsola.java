@@ -6,6 +6,10 @@ package view;
 
 import controller.ApplicationController;
 import com.coti.tools.Esdia;
+import static com.coti.tools.Esdia.readInt;
+import static com.coti.tools.Esdia.readString_ne;
+import java.util.ArrayList;
+import model.Conversacion;
 
 /**
  *
@@ -22,7 +26,7 @@ public class VistaConsola extends ApplicationView {
 
     @Override
     public void mostrarMenu() {
-        int input;
+        int imput;
         do{
             System.out.println("===============================================");
             System.out.println("              ConversacionesJLLM               ");
@@ -34,10 +38,10 @@ public class VistaConsola extends ApplicationView {
             System.out.println("");
             System.out.println("0) Salir");
             System.out.println("===============================================");
-            input = Esdia.readInt("Tu eleccion >> ", 0, 4);
+            imput = Esdia.readInt("Tu eleccion >> ", 0, 4);
             
-            switch(input){
-                case 1: agregarConversacion(); break;
+            switch(imput){
+                case 1: nuevaConversacion(); break;
                 case 2: listarConversaciones(); break;
                 case 3: eliminarConversacion(); break;
                 case 4: mostrarSubmenu(); break;
@@ -45,14 +49,35 @@ public class VistaConsola extends ApplicationView {
                     
                 
             }
-        } while (input>0);
+        } while (imput>0);
     }
-    public void agregarConversacion(){
-        
+    public void nuevaConversacion(){
+        c.nuevaConversacion();
     }
     
     public void listarConversaciones(){
+        ArrayList<Conversacion> conversaciones = c.listarConversaciones();
         
+        if (conversaciones.size()==0){
+            System.out.println("No hay conversaciones cargadas");
+            System.out.println("");
+        }
+        
+        else{
+            System.out.println("Listado de conversaciones");
+            for(Conversacion conversacion : conversaciones){
+                System.out.printf(conversaciones.indexOf(conversacion) + ". " + conversacion.estadoConversacion());
+            }
+            System.out.println("===============================================");
+        }
+        
+        //Menu adicional para mostrar una conversacion individual
+        System.out.println("Desea ver una conversacion en concreto? (0 para salir)");
+        int input = readInt("Tu eleccion >>", 0, conversaciones.size());
+        
+        if(input>0 ){
+            conversaciones.get(input).mostrarConversacion();
+        }
     }
     public void eliminarConversacion(){
         
@@ -68,9 +93,6 @@ public class VistaConsola extends ApplicationView {
         
     }
     
-    public VistaConsola(ApplicationController c) {
-        super(c);
-    }
     
 
 }

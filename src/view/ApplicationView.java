@@ -18,7 +18,7 @@ public abstract class ApplicationView {
     
     public abstract void mostrarFinal();
     
-    public ApplicationView(ApplicationController c) {
+    public void setC(ApplicationController c) {
         this.c = c;
     }
     

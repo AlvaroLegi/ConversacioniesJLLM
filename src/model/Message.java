@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package model;
+import java.lang.Object;
+import java.time.Instant;
 
 /**
  *
@@ -13,9 +15,9 @@ public class Message {
     private long epochSeconds;
     private String contenido;
 
-    public Message(String sender, long epochSeconds, String contenido) {
-        this.sender = sender;
-        this.epochSeconds = epochSeconds;
+    public Message(String contenido) {
+        this.sender = System.getProperty("os.name");
+        this.epochSeconds = getEpochSeconds();
         this.contenido = contenido;
     }
     
@@ -66,7 +68,7 @@ public class Message {
 
     @Override
     public String toString() {
-        return "Message{" + "-" + sender + ": " + contenido +" | "+ epochSeconds + '}';
+        return sender + "[" + epochSeconds + "]: "  + contenido +" | "+ epochSeconds;
     }
     
     

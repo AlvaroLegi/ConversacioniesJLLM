@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package controller;
+import java.util.ArrayList;
+import java.util.List;
 import view.ApplicationView;
 import model.ApplicationModel;
 
@@ -21,6 +23,9 @@ public class ApplicationController {
         
     }
     
+    public ArrayList listarConversaciones(){
+        return m.listarConversaciones();
+    }
     
     
     
@@ -35,7 +40,11 @@ public class ApplicationController {
     public ApplicationController(ApplicationView v, ApplicationModel m) {
         this.v = v;
         this.m = m;
-        this.v.super.setC(this);
+        v.setC(this);
+    }
+
+    public void nuevaConversacion() {
+        m.nuevaConversacion();
     }
     
     
