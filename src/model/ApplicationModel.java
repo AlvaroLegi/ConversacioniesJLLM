@@ -4,32 +4,46 @@
  */
 package model;
 
+import static com.coti.tools.Esdia.readString_ne;
 import java.io.File;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
  * @author Alvaro
  */
-public class ApplicationModel {
-
-    private Conversacion conversacion;
+public class ApplicationModel{
     private IRepository repository;
     private ArrayList<Conversacion> conversaciones;
     private ILLM llm;
     
+    public ApplicationModel(IRepository repository, ArrayList<Conversacion> conversaciones, ILLM llm) {
+        this.repository = repository;
+        this.conversaciones = conversaciones;
+        this.llm = llm;
+    }
+    
     public void nuevaConversacion(){
-        if(this.conversacion==null){
-            this.conversacion=new Conversacion(this.llm.getIdentifier());
-        }
-        
+    
+        Conversacion conversacion=new Conversacion(this.llm.getIdentifier());
         String input;
+        
         do{
             //Lógica del chatbot para hablar
-            input="";
+            input= readString_ne(">> ");
+            
+            System.out.println(llm.hablar(input));
+
             
         }while(input != "\salir");
+        
+        conversacion.setFechaFinSegs(Instant.now().getEpochSecond());
+    
+        this.conversaciones.add(conversacion);
     }
     
     public ArrayList<Conversacion> getListaConversacionesCargadas(){
@@ -46,12 +60,7 @@ public class ApplicationModel {
         this.conversaciones.remove(conversacionAEliminar);
     }
     
-    public ApplicationModel(Conversacion conversacion, IRepository repository, ArrayList<Conversacion> conversaciones, ILLM llm) {
-        this.conversacion = null;
-        //this.repository = repository;
-        this.conversaciones = new ArrayList<Conversacion>();
-        //this.llm = llm;
-    }
+   
 
     public boolean importarConversaciones() {
         conversaciones = (ArrayList<Conversacion>) repository.importarConversaciones();
@@ -69,6 +78,7 @@ public class ApplicationModel {
     }
 
     
+     
     
     
     

@@ -15,9 +15,12 @@ public class Message {
     private long epochSeconds;
     private String contenido;
 
-    public Message(String contenido) {
-        this.sender = System.getProperty("os.name");
-        this.epochSeconds = getEpochSeconds();
+    public Message(String sender, String contenido) {
+        this.sender = sender;
+        
+        Instant instant = Instant.now();
+        
+        this.epochSeconds = instant.getEpochSecond();
         this.contenido = contenido;
     }
     
@@ -35,12 +38,6 @@ public class Message {
         
         return resultado;
     }
-    
-    
-    
-    
-    
-    
 
     public String getSender() {
         return sender;
@@ -48,10 +45,6 @@ public class Message {
 
     public void setSender(String sender) {
         this.sender = sender;
-    }
-
-    public long getEpochSeconds() {
-        return epochSeconds;
     }
 
     public void setEpochSeconds(long epochSeconds) {
