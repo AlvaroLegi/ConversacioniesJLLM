@@ -45,6 +45,10 @@ public class ApplicationController {
     public boolean importarConversaciones() {
         return m.importarConversaciones();
     }
+
+    public void exportarConversasciones() {
+        m.exportarConversaciones();
+    }
     
     
 }

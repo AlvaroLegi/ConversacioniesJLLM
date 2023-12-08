@@ -64,6 +64,10 @@ public class ApplicationModel {
         }
     }
 
+    public void exportarConversaciones() {
+        repository.exportarConversaciones(this.conversaciones);
+    }
+
     
     
     

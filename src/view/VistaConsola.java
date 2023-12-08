@@ -139,7 +139,12 @@ public class VistaConsola extends ApplicationView {
 
     private void exportarConversaciones() {
         ArrayList<Conversacion> conversaciones = c.getListaConversacionesCargadas() ;
-        
+        if(conversaciones.isEmpty()){
+            System.out.println("No hay conversaciones cargadas para exportar");
+        }
+        else{
+            c.exportarConversasciones();
+        }
         
         
     }
