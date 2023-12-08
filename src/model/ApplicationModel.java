@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class ApplicationModel {
         }while(input != "\salir");
     }
     
-    public ArrayList listarConversaciones(){
+    public ArrayList<Conversacion> getListaConversacionesCargadas(){
         ArrayList<Conversacion> conversacionesCopia = new ArrayList<Conversacion>();
         
         for(Conversacion conv : conversaciones){
@@ -40,12 +41,27 @@ public class ApplicationModel {
         
         return conversacionesCopia;
     }
-
+    
+    public void eliminarConversacion(Conversacion conversacionAEliminar){
+        this.conversaciones.remove(conversacionAEliminar);
+    }
+    
     public ApplicationModel(Conversacion conversacion, IRepository repository, ArrayList<Conversacion> conversaciones, ILLM llm) {
-        this.conversacion = conversacion;
+        this.conversacion = null;
         //this.repository = repository;
         this.conversaciones = new ArrayList<Conversacion>();
         //this.llm = llm;
+    }
+
+    public boolean importarConversaciones() {
+        conversaciones = (ArrayList<Conversacion>) repository.importarConversaciones();
+        
+        if(conversaciones == null){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     

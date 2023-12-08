@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import view.ApplicationView;
 import model.ApplicationModel;
+import model.Conversacion;
 
 /**
  *
@@ -23,19 +24,9 @@ public class ApplicationController {
         
     }
     
-    public ArrayList listarConversaciones(){
-        return m.listarConversaciones();
+    public ArrayList<Conversacion> getListaConversacionesCargadas(){
+        return m.getListaConversacionesCargadas();
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     
     public ApplicationController(ApplicationView v, ApplicationModel m) {
         this.v = v;
@@ -45,6 +36,14 @@ public class ApplicationController {
 
     public void nuevaConversacion() {
         m.nuevaConversacion();
+    }
+
+    public void eliminarConversacion(Conversacion conversacionAEliminar){
+        m.eliminarConversacion(conversacionAEliminar);
+    }
+
+    public boolean importarConversaciones() {
+        return m.importarConversaciones();
     }
     
     

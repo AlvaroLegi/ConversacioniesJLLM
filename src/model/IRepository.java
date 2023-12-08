@@ -4,13 +4,14 @@
  */
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  *
  * @author Alvaro
  */
 public interface IRepository {
-    public List importarConversaciones();
-    public void exportarConversaciones(List<Conversacion> conversaciones);
+    public ArrayList<Conversacion> importarConversaciones();
+    public void exportarConversaciones(ArrayList<Conversacion> conversaciones);
     
 }
