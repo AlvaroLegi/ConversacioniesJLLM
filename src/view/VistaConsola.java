@@ -79,7 +79,7 @@ public class VistaConsola extends ApplicationView {
         int input = readInt("Tu eleccion >>", 0, conversaciones.size());
         
         if(input>0 ){
-            c.eliminarConversacion(conversaciones.get(input));
+            c.eliminarConversacion(conversaciones.get(input-1));
         }
         
         
@@ -145,10 +145,12 @@ public class VistaConsola extends ApplicationView {
         else{
             c.exportarConversasciones();
         }
-        
-        
     }
     
-    
-
+    private void guardarEstadoApp(){
+        
+    }
+    private void cargarEstadoApp(){
+        
+    }
 }
