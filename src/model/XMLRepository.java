@@ -19,15 +19,15 @@ import java.util.List;
  *
  * @author Alvaro
  */
-public class XMLRepository implements IRepository{
+public class XMLRepository implements IRepository {
 
     @Override
     public ArrayList<Conversacion> importarConversaciones() {
         String nombreFichero = "input.xml";
-        
+
         Path pathRef = pathToFileInFolderOnDesktop("jLLM", nombreFichero);
         File fileRef = pathRef.toFile();
-       
+
         if (fileRef.isFile() && fileRef.exists()) {
             try {
                 XmlMapper xmlMapper = new XmlMapper();
@@ -38,29 +38,26 @@ public class XMLRepository implements IRepository{
                 System.err.println("Error:" + ex.getMessage());
                 return null;
             }
-        }
-        else{
+        } else {
             return null;
         }
     }
 
     @Override
     public void exportarConversaciones(ArrayList<Conversacion> conversaciones) {
-        
+
         String nombreFichero = "output.xml";
-        
+
         Path pathRef = pathToFileInFolderOnDesktop("jLLM", nombreFichero);
         File fileRef = pathRef.toFile();
-        
+
         try {
             XmlMapper xmlMapper = new XmlMapper();
             String xml = xmlMapper.writeValueAsString(conversaciones);
             Files.write(fileRef.toPath(), xml.getBytes(StandardCharsets.UTF_8));
-        } 
-        catch (JsonProcessingException ex) {
+        } catch (JsonProcessingException ex) {
             System.err.println("Error:" + ex.getMessage());
-        } 
-        catch (IOException ex) {
+        } catch (IOException ex) {
             // Lo mismo aquí
             System.err.println("Error:" + ex.getMessage());
         }

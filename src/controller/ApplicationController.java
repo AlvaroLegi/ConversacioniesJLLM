@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package controller;
+
 import java.util.ArrayList;
 import java.util.List;
 import view.ApplicationView;
@@ -14,20 +15,21 @@ import model.Conversacion;
  * @author Alvaro
  */
 public class ApplicationController {
+
     ApplicationView v;
     ApplicationModel m;
 
-    public void init(){ //acabar de hacer esto
+    public void init() { //acabar de hacer esto
         v.mostrarInicio();
         v.mostrarMenu();
         v.mostrarFinal();
-        
+
     }
-    
-    public ArrayList<Conversacion> getListaConversacionesCargadas(){
+
+    public ArrayList<Conversacion> getListaConversacionesCargadas() {
         return m.getListaConversacionesCargadas();
     }
-    
+
     public ApplicationController(ApplicationView v, ApplicationModel m) {
         this.v = v;
         this.m = m;
@@ -38,7 +40,7 @@ public class ApplicationController {
         m.nuevaConversacion();
     }
 
-    public void eliminarConversacion(Conversacion conversacionAEliminar){
+    public void eliminarConversacion(Conversacion conversacionAEliminar) {
         m.eliminarConversacion(conversacionAEliminar);
     }
 
@@ -49,6 +51,13 @@ public class ApplicationController {
     public void exportarConversasciones() {
         m.exportarConversaciones();
     }
-    
-    
+
+    public void guardarEstadoApp() {
+
+    }
+
+    public void cargarEstadoApp() {
+
+    }
+
 }

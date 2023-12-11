@@ -16,59 +16,64 @@ import java.util.Set;
  *
  * @author Alvaro
  */
-public class ApplicationModel{
+public class ApplicationModel {
+
     private IRepository repository;
     private ArrayList<Conversacion> conversaciones;
     private ILLM llm;
-    
+
     public ApplicationModel(IRepository repository, ArrayList<Conversacion> conversaciones, ILLM llm) {
         this.repository = repository;
         this.conversaciones = conversaciones;
         this.llm = llm;
     }
-    
-    public void nuevaConversacion(){
-    
-        Conversacion conversacion=new Conversacion(this.llm.getIdentifier());
-        String input;
-        
-        do{
-            //Lógica del chatbot para hablar
-            input= readString_ne(">> ");
-            
-            System.out.println(llm.hablar(input));
 
-            
-        }while(input != "\salir");
-        
+    public void nuevaConversacion() {
+
+        Conversacion conversacion = new Conversacion(this.llm.getIdentifier());
+        String input = "hola"; //El valor inicial se fija asi para forzar un saludo como primer mensaje
+        String output;
+
+        //Lógica del chatbot para hablar
+        //mensaje inicial del bot
+        do {
+            //Output
+            output = llm.hablar(input);
+            System.out.println(output);
+            conversacion.addMensaje(conversacion.getNombreChat(), output);
+            //Input
+            input = readString_ne(">> ");
+            if (!input.equals("\\salir")) {
+                conversacion.addMensaje("Yo", input);
+            }
+
+        } while (!input.equals("\\salir"));
+
         conversacion.setFechaFinSegs(Instant.now().getEpochSecond());
-    
+
         this.conversaciones.add(conversacion);
     }
-    
-    public ArrayList<Conversacion> getListaConversacionesCargadas(){
+
+    public ArrayList<Conversacion> getListaConversacionesCargadas() {
         ArrayList<Conversacion> conversacionesCopia = new ArrayList<Conversacion>();
-        
-        for(Conversacion conv : conversaciones){
+
+        for (Conversacion conv : conversaciones) {
             conversacionesCopia.add(conv);
         }
-        
+
         return conversacionesCopia;
     }
-    
-    public void eliminarConversacion(Conversacion conversacionAEliminar){
+
+    public void eliminarConversacion(Conversacion conversacionAEliminar) {
         this.conversaciones.remove(conversacionAEliminar);
     }
-    
-   
 
     public boolean importarConversaciones() {
         conversaciones = (ArrayList<Conversacion>) repository.importarConversaciones();
-        
-        if(conversaciones == null){
+
+        if (conversaciones == null) {
             return false;
-        }
-        else{
+        } else {
             return true;
         }
     }
@@ -77,10 +82,4 @@ public class ApplicationModel{
         repository.exportarConversaciones(this.conversaciones);
     }
 
-    
-     
-    
-    
-    
-    
 }

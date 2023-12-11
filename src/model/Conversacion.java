@@ -4,19 +4,20 @@
  */
 package model;
 
-import com.coti.tools.Esdia;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  *
  * @author Alvaro
  */
 public class Conversacion implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
-    transient private String nombreChat; //transient por seguridad
+
+    private String nombreChat;
     private ArrayList<Message> mensajes;
     private long fechaInicioSegs;
     private long fechaFinSegs;
@@ -28,25 +29,25 @@ public class Conversacion implements Serializable {
     }
 
     public String estadoConversacion() {
-        return fechaInicioSegs + "|" + mensajes.size() + "|" + mensajes.get(0).sacar20Chars() ;
+        return fechaInicioSegs + " | " + mensajes.size() + " | " + mensajes.get(0).sacar20Chars();
     }
-    
-    public void mostrarConversacion(){
-        if(mensajes.isEmpty()){
+
+    public void mostrarConversacion() {
+        if (mensajes.isEmpty()) {
             System.out.println("La conversacion esta vacia");
-            
-        }
-        else{
-            for(Message mensaje : mensajes){
-                System.out.printf(mensaje.toString());
+        } 
+        else {
+            System.out.println("Conversacion del " + fechaInicioSegs);
+            for (Message mensaje : mensajes) {
+                System.out.println(mensaje.toString());
             }
         }
     }
-    
-    public void addMensaje(String sender, String contenido){
-        Message mensaje= new Message(sender, contenido);
+
+    public void addMensaje(String sender, String contenido) {
+        Message mensaje = new Message(sender, contenido);
         this.mensajes.add(mensaje);
-        
+
     }
 
     public void setFechaInicioSegs(long fechaInicioSegs) {
@@ -56,7 +57,9 @@ public class Conversacion implements Serializable {
     public void setFechaFinSegs(long fechaFinSegs) {
         this.fechaFinSegs = fechaFinSegs;
     }
-    
-    
-    
+
+    public String getNombreChat() {
+        return nombreChat;
+    }
+
 }
