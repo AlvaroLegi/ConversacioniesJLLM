@@ -15,9 +15,10 @@ import java.util.ArrayList;
  * @author Alvaro
  */
 public class RandomCSVLLM implements ILLM {
-    
-    
-    
+
+    public RandomCSVLLM() {
+    }
+
     @Override
     public String hablar(String input) {
         return "";

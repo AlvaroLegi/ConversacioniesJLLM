@@ -14,8 +14,11 @@ import model.FakeLLM;
 import model.ILLM;
 import model.IRepository;
 import model.JSONRepository;
+import model.RandomCSVLLM;
+import model.XMLRepository;
 import view.ApplicationView;
 import view.VistaConsola;
+import view.VistaConsolaTTS;
 
 /**
  *
@@ -37,9 +40,9 @@ public class ConversacionesJLLM {
         v = new VistaConsola();
 
         if (args.length == 3) {
-            //repository = getRepository(args[0]);
-            //llm = getLLM(args[1]);
-            //v = getView(args[2]);
+            repository = getRepository(args[0]);
+            llm = getLLM(args[1]);
+            v = getView(args[2]);
         } else {
             //Default
             repository = new JSONRepository();
@@ -48,15 +51,47 @@ public class ConversacionesJLLM {
         }
 
         //Carga estado aplicacion
-        llm = new FakeLLM();
         ArrayList<Conversacion> conversaciones = new ArrayList<Conversacion>();
 
+        //Constructor MVC
         ApplicationModel m = new ApplicationModel(repository, conversaciones, llm);
         ApplicationController c = new ApplicationController(v, m);
         v.setC(c);
 
         c.init();
 
+    }
+
+    private static IRepository getRepository(String arg) {
+        if (arg.equalsIgnoreCase("json")) {
+            return new JSONRepository();
+        } else if (arg.equalsIgnoreCase("json")) {
+            return new XMLRepository();
+        } else {
+            return new JSONRepository();
+        }
+
+    }
+
+    private static ILLM getLLM(String arg) {
+        if (arg.equalsIgnoreCase("fake")) {
+            return new FakeLLM();
+        } else if (arg.equalsIgnoreCase("csv")) {
+            return new RandomCSVLLM();
+        } else {
+            return new FakeLLM();
+        }
+    }
+
+    private static ApplicationView getView(String arg) {
+
+        if (arg.equalsIgnoreCase("fake")) {
+            return new VistaConsola();
+        } else if (arg.equalsIgnoreCase("csv")) {
+            return new VistaConsolaTTS();
+        } else {
+            return new VistaConsola();
+        }
     }
 
 }
