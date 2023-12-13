@@ -35,7 +35,7 @@ public class FakeLLM implements ILLM {
         }
 
         //Por defecto
-        return respuestas[randNum.nextInt(saludos.length)];
+        return respuestas[randNum.nextInt(respuestas.length)];
     }
 
     @Override
