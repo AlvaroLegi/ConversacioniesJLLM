@@ -4,11 +4,16 @@
  */
 package model;
 
+import com.coti.tools.Rutas;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -16,12 +21,23 @@ import java.util.ArrayList;
  */
 public class RandomCSVLLM implements ILLM {
 
-    public RandomCSVLLM() {
+    private static ArrayList<Frase> frases;
+
+    public RandomCSVLLM() throws Exception {
+        try {
+            importarFraseArrayDelimitado(Paths.get("input.csv"), ",");
+        } catch (Exception e) {
+            System.err.println("Se ha producido un error cargando las frases de input.csv");
+            throw new Exception("ERROR: " + e.getMessage(), e);
+        }
     }
 
     @Override
     public String hablar(String input) {
-        return "";
+
+        Random randNum = new Random();
+
+        return frases.get(randNum.nextInt(frases.size())).getContenido();
     }
 
     @Override
@@ -29,16 +45,21 @@ public class RandomCSVLLM implements ILLM {
         return "RandomCSV";
     }
 
-    public static void exportarDelimitado(Path ruta, ArrayList<Message> mensajes) {
-        ArrayList<String> lineas = new ArrayList<>();
-        for (Message mensaje : mensajes) {
-            lineas.add(mensaje.getInstanceAsDelimitedString("\t"));
-        }
+    public void importarFraseArrayDelimitado(Path ruta, String delimitador) throws Exception {
+        ArrayList<Frase> frases = new ArrayList<>();
         try {
-            Files.write(ruta, lineas, StandardCharsets.UTF_8);
-            System.out.println("Datos exportados exitosamente a: " + ruta.toFile().getAbsolutePath());
+            List<String> lineas = Files.readAllLines(ruta);
+            for (String linea : lineas) {
+                Frase frase = Frase.leerFraseDeStringDelimitado(linea, delimitador);
+                if (frase != null) {
+                    frases.add(frase);
+                }
+            }
         } catch (IOException e) {
-            System.err.println("Ocurrió un error al intentar exportar las personas: " + e.getMessage());
+            System.err.println("Se ha producido un error importando las frases del CSV");
+            throw new Exception("ERROR" + e.getMessage(), e);
         }
+        this.frases = frases;
     }
+
 }

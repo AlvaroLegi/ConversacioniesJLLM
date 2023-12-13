@@ -6,6 +6,7 @@ package conversacionesjllm;
 
 import com.coti.tools.Esdia;
 import controller.ApplicationController;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import model.ApplicationModel;
@@ -25,19 +26,12 @@ import view.VistaConsolaTTS;
  * @author Alvaro
  */
 public class ConversacionesJLLM {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
+    
+    public static void main(String[] args) throws Exception {
         // TODO code application logic here
         IRepository repository;
         ILLM llm;
         ApplicationView v;
-
-        //temp
-        repository = new JSONRepository();
-        v = new VistaConsola();
 
         if (args.length == 3) {
             repository = getRepository(args[0]);
@@ -46,7 +40,7 @@ public class ConversacionesJLLM {
         } else {
             //Default
             repository = new JSONRepository();
-            llm = new FakeLLM();
+            llm = new RandomCSVLLM();
             v = new VistaConsola();
         }
 
@@ -73,11 +67,17 @@ public class ConversacionesJLLM {
 
     }
 
-    private static ILLM getLLM(String arg) {
+    private static ILLM getLLM(String arg) throws Exception {
         if (arg.equalsIgnoreCase("fake")) {
             return new FakeLLM();
         } else if (arg.equalsIgnoreCase("csv")) {
-            return new RandomCSVLLM();
+            File f = new File("fichero.csv");
+            if (f.exists() && f.isFile()) {
+                return new RandomCSVLLM();
+            } else {
+                System.err.println("No se encontro fichero.csv en los archivos del programa, el LLM utilizado sera FakeLLM");
+                return new FakeLLM();
+            }
         } else {
             return new FakeLLM();
         }

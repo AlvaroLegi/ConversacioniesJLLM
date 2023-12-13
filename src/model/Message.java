@@ -6,6 +6,10 @@ package model;
 
 import java.lang.Object;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Set;
 
@@ -57,11 +61,17 @@ public class Message {
 
     @Override
     public String toString() {
-        return sender + "[" + epochSeconds + "]: " + frase.getContenido();
+        return sender + "[" + getFechaFromEpoch(epochSeconds,"dd/MMM/yyyy: hh:mm:ss") + "]: " + frase.getContenido();
     }
 
     public String getInstanceAsDelimitedString(String delimiter) {
         return String.format(Locale.ENGLISH, "%s" + delimiter + "%s" + delimiter + "%d", sender, frase.getContenido(), epochSeconds);
     }
 
+    public static String getFechaFromEpoch(long epochSeconds, String pattern) {
+        LocalDateTime dateTime = LocalDateTime.ofEpochSecond(epochSeconds, 0, ZoneOffset.UTC);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH);
+        
+        return dateTime.format(formatter);
+    }
 }

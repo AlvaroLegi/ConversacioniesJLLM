@@ -8,19 +8,31 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Locale;
+import com.coti.tools.Esdia;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
  *
  * @author Alvaro
  */
+@JacksonXmlRootElement(localName = "Conversacion")
 public class Conversacion implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    
     private String nombreChat;
-    private ArrayList<Message> mensajes;
     private long fechaInicioSegs;
     private long fechaFinSegs;
+    @JacksonXmlElementWrapper(localName = "mensajes")
+    private ArrayList<Message> mensajes;
+
+    public Conversacion(String nombreChat, ArrayList<Message> mensajes, long fechaInicioSegs, long fechaFinSegs) {
+        this.nombreChat = nombreChat;
+        this.mensajes = mensajes;
+        this.fechaInicioSegs = fechaInicioSegs;
+        this.fechaFinSegs = fechaFinSegs;
+    }
 
     public Conversacion(String nombreChat) {
         this.fechaInicioSegs = Instant.now().getEpochSecond();
@@ -35,9 +47,8 @@ public class Conversacion implements Serializable {
     public void mostrarConversacion() {
         if (mensajes.isEmpty()) {
             System.out.println("La conversacion esta vacia");
-        } 
-        else {
-            System.out.println("Conversacion del " + fechaInicioSegs);
+        } else {
+            System.out.println("Conversacion del " + Message.getFechaFromEpoch(fechaInicioSegs,"dd:MMM:yyyy: hh:mm:ss"));
             for (Message mensaje : mensajes) {
                 System.out.println(mensaje.toString());
             }
@@ -47,7 +58,6 @@ public class Conversacion implements Serializable {
     public void addMensaje(String sender, String contenido) {
         Message mensaje = new Message(sender, contenido);
         this.mensajes.add(mensaje);
-
     }
 
     public void setFechaInicioSegs(long fechaInicioSegs) {
