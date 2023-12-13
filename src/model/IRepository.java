@@ -13,8 +13,8 @@ import java.util.List;
  */
 public interface IRepository {
 
-    public ArrayList<Conversacion> importarConversaciones();
+    public ArrayList<Conversacion> importarConversaciones() throws Exception;
 
-    public void exportarConversaciones(ArrayList<Conversacion> conversaciones);
+    public void exportarConversaciones(ArrayList<Conversacion> conversaciones) throws Exception;
 
 }

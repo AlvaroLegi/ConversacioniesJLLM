@@ -68,7 +68,7 @@ public class ApplicationModel {
         this.conversaciones.remove(conversacionAEliminar);
     }
 
-    public boolean importarConversaciones() {
+    public boolean importarConversaciones() throws Exception {
         conversaciones = repository.importarConversaciones();
 
         if (conversaciones.isEmpty() || conversaciones == null) {
@@ -78,8 +78,12 @@ public class ApplicationModel {
         }
     }
 
-    public void exportarConversaciones() {
+    public void exportarConversaciones() throws Exception {
         repository.exportarConversaciones(this.conversaciones);
+    }
+
+    public void setListaConversacionesCargadas(ArrayList<Conversacion> conversaciones) {
+        this.conversaciones = conversaciones;
     }
 
 }

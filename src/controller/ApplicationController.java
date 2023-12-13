@@ -19,7 +19,7 @@ public class ApplicationController {
     ApplicationView v;
     ApplicationModel m;
 
-    public void init() { //acabar de hacer esto
+    public void init() throws Exception { //acabar de hacer esto
         v.mostrarInicio();
         v.mostrarMenu();
         v.mostrarFinal();
@@ -44,11 +44,11 @@ public class ApplicationController {
         m.eliminarConversacion(conversacionAEliminar);
     }
 
-    public boolean importarConversaciones() {
+    public boolean importarConversaciones() throws Exception {
         return m.importarConversaciones();
     }
 
-    public void exportarConversasciones() {
+    public void exportarConversasciones() throws Exception {
         m.exportarConversaciones();
     }
 
@@ -58,6 +58,10 @@ public class ApplicationController {
 
     public void cargarEstadoApp() {
 
+    }
+
+    public void setListaConversacionesCargadas(ArrayList<Conversacion> conversaciones) {
+        m.setListaConversacionesCargadas(conversaciones);
     }
 
 }

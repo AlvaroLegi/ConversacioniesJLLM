@@ -46,7 +46,6 @@ public class XMLRepository implements IRepository {
             throw new Exception("ERROR: " + e.getMessage(),e);
         } finally {
             return conversaciones;
-
         }
     }
 

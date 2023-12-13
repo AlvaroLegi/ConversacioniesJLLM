@@ -8,6 +8,15 @@ import controller.ApplicationController;
 import com.coti.tools.Esdia;
 import static com.coti.tools.Esdia.readInt;
 import static com.coti.tools.Esdia.readString_ne;
+import com.coti.tools.Rutas;
+import static com.coti.tools.Rutas.pathToFileInFolderOnDesktop;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import model.Conversacion;
 
@@ -21,12 +30,25 @@ public class VistaConsola extends ApplicationView {
     }
 
     @Override
-    public void mostrarInicio() {
+    public void mostrarInicio() throws Exception {
+        Path pathDir = Rutas.pathToFolderOnDesktop("jMML");
+        File dirRef = pathDir.toFile();
 
+        Path pathFile = Rutas.pathToFileInFolderOnDesktop("jMML", "jMML.bin");
+        File fileRef = pathFile.toFile();
+
+        if (!(fileRef.isFile() && fileRef.exists())) {
+            System.out.println("No se encontro jMML.bin en jMML");
+        } else {
+            cargarEstadoApp();
+            System.out.println("Se han cargado " + c.getListaConversacionesCargadas().size() +" conversaciones");
+            System.out.println("");
+        }
+        
     }
 
     @Override
-    public void mostrarMenu() {
+    public void mostrarMenu() throws Exception {
         int imput;
         do {
             System.out.println("===============================================");
@@ -85,7 +107,9 @@ public class VistaConsola extends ApplicationView {
     public void eliminarConversacion() {
         ArrayList<Conversacion> conversaciones = c.getListaConversacionesCargadas();
         mostrarConversaciones(conversaciones);
-
+        if(conversaciones.isEmpty()){
+            return;
+        }
         //Menu adicional para eliminar una conversacion individual
         System.out.println("Desea eliminar una conversacion? (0 para salir)");
         int input = readInt("Tu eleccion >>", 0, conversaciones.size());
@@ -113,7 +137,7 @@ public class VistaConsola extends ApplicationView {
     }
 
     //Submenu para importar y exportar conversaciones
-    public void mostrarSubmenu() {
+    public void mostrarSubmenu() throws Exception {
         System.out.println("Menu para importar/exportar conversaciones");
         System.out.println("1) Importar conversaciones");
         System.out.println("2) Exportar conversaciones");
@@ -134,11 +158,17 @@ public class VistaConsola extends ApplicationView {
     }
 
     @Override
-    public void mostrarFinal() {
+    public void mostrarFinal() throws Exception {
+        try{
+            guardarEstadoApp();
+        } catch (Exception e){
+            System.out.println("No se han podido importar los datos a jMML.bin, las conversaciones no serán guardadas");
+        }
+        System.out.println("Hasta pronto.");
 
     }
 
-    private void importarConversaciones() {
+    private void importarConversaciones() throws Exception {
         boolean resultado;
         resultado = c.importarConversaciones();
 
@@ -149,7 +179,7 @@ public class VistaConsola extends ApplicationView {
         }
     }
 
-    private void exportarConversaciones() {
+    private void exportarConversaciones() throws Exception {
         ArrayList<Conversacion> conversaciones = c.getListaConversacionesCargadas();
         if (conversaciones.isEmpty()) {
             System.out.println("No hay conversaciones cargadas para exportar");
@@ -158,11 +188,34 @@ public class VistaConsola extends ApplicationView {
         }
     }
 
-    private void guardarEstadoApp() {
+    private void guardarEstadoApp() throws Exception {
 
+        Path pathFile = Rutas.pathToFileInFolderOnDesktop("jMML", "jMML.bin");
+        File fileRef = pathFile.toFile();
+        String ruta = fileRef.getAbsolutePath();
+        
+        
+
+        ArrayList<Conversacion> conversaciones = c.getListaConversacionesCargadas();
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileRef))) {
+            oos.writeObject(conversaciones);
+            System.out.println("Lista guardada con exito.");
+        } catch (Exception e) {
+            throw new Exception("ERROR: " + e.getMessage(), e);
+        }
     }
 
-    private void cargarEstadoApp() {
+    private void cargarEstadoApp() throws Exception {
+        Path pathFile = Rutas.pathToFileInFolderOnDesktop("jMML", "jMML.bin");
+        File fileRef = pathFile.toFile();
+        String ruta = fileRef.getAbsolutePath();
+        
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileRef))) {
+            ArrayList<Conversacion> conversaciones = (ArrayList<Conversacion>) ois.readObject();
+            c.setListaConversacionesCargadas(conversaciones);
+        } catch (Exception e) {
+            throw new Exception("ERROR: " + e.getMessage(), e);
+        }
 
     }
 

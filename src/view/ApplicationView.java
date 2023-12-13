@@ -14,11 +14,11 @@ public abstract class ApplicationView {
 
     ApplicationController c;
 
-    public abstract void mostrarInicio();
+    public abstract void mostrarInicio() throws Exception;
 
-    public abstract void mostrarMenu();
+    public abstract void mostrarMenu() throws Exception;
 
-    public abstract void mostrarFinal();
+    public abstract void mostrarFinal() throws Exception;
 
     public void setC(ApplicationController c) {
         this.c = c;

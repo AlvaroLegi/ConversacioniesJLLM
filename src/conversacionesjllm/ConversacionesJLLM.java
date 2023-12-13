@@ -5,8 +5,10 @@
 package conversacionesjllm;
 
 import com.coti.tools.Esdia;
+import com.coti.tools.Rutas;
 import controller.ApplicationController;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import model.ApplicationModel;
@@ -71,11 +73,16 @@ public class ConversacionesJLLM {
         if (arg.equalsIgnoreCase("fake")) {
             return new FakeLLM();
         } else if (arg.equalsIgnoreCase("csv")) {
-            File f = new File("fichero.csv");
+            File f = new File(new File("ConversacionesJLLM.jar").getParent());
             if (f.exists() && f.isFile()) {
-                return new RandomCSVLLM();
+                try{
+                    return new RandomCSVLLM();
+                } catch(Exception e){
+                    System.out.println("No se pudo importar input.csv, el LLM utilizado sera FakeLLM");
+                    return new FakeLLM();
+                }
             } else {
-                System.err.println("No se encontro fichero.csv en los archivos del programa, el LLM utilizado sera FakeLLM");
+                System.err.println("No se encontro input.csv en los archivos del programa, el LLM utilizado sera FakeLLM");
                 return new FakeLLM();
             }
         } else {

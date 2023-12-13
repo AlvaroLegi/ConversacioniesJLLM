@@ -53,7 +53,7 @@ public class FakeLLM implements ILLM {
         final String[] checks = {"refran", "dicho", "proverbio", "dicho"};
         return comprobarPalabraEnArray(input, checks);
     }
-    
+
 //Metodo para comprobar si un String input contiene un substring de un array
 //Se usa para buscar palabras clave en un mensaje introducido por el usuario
 //Devuelve true en caso afirmativo y false en caso negativo

@@ -92,5 +92,5 @@ public class Message implements Serializable {
     public long getEpochSeconds() {
         return epochSeconds;
     }
-    
+
 }
