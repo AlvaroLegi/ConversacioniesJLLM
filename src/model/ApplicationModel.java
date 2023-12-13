@@ -69,9 +69,9 @@ public class ApplicationModel {
     }
 
     public boolean importarConversaciones() {
-        conversaciones = (ArrayList<Conversacion>) repository.importarConversaciones();
+        conversaciones = repository.importarConversaciones();
 
-        if (conversaciones == null) {
+        if (conversaciones.isEmpty() || conversaciones == null) {
             return false;
         } else {
             return true;

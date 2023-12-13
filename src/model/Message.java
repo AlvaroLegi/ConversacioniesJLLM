@@ -4,6 +4,8 @@
  */
 package model;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import java.io.Serializable;
 import java.lang.Object;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -17,8 +19,9 @@ import java.util.Set;
  *
  * @author Alvaro
  */
-public class Message {
+public class Message implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String sender;
     private long epochSeconds;
     private Frase frase;
@@ -27,6 +30,9 @@ public class Message {
         this.sender = sender;
         this.epochSeconds = Instant.now().getEpochSecond();
         this.frase = new Frase(contenido);
+    }
+
+    public Message() {
     }
 
     //Método que devuelve los primeros 20 Char del contenido del mensaje o el mensaje entero en caso de tener menos de 20 caracteres
@@ -41,6 +47,22 @@ public class Message {
         }
 
         return resultado;
+    }
+
+    @Override
+    public String toString() {
+        return sender + "[" + getFechaFromEpoch(epochSeconds, "dd/MMM/yyyy: hh:mm:ss") + "]: " + frase.getContenido();
+    }
+
+    public String getInstanceAsDelimitedString(String delimiter) {
+        return String.format(Locale.ENGLISH, "%s" + delimiter + "%s" + delimiter + "%d", sender, frase.getContenido(), epochSeconds);
+    }
+
+    public static String getFechaFromEpoch(long epochSeconds, String pattern) {
+        LocalDateTime dateTime = LocalDateTime.ofEpochSecond(epochSeconds, 0, ZoneOffset.UTC);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH);
+
+        return dateTime.format(formatter);
     }
 
     public String getSender() {
@@ -59,19 +81,16 @@ public class Message {
         frase.setContenido(contenido);
     }
 
-    @Override
-    public String toString() {
-        return sender + "[" + getFechaFromEpoch(epochSeconds,"dd/MMM/yyyy: hh:mm:ss") + "]: " + frase.getContenido();
+    public Frase getFrase() {
+        return frase;
     }
 
-    public String getInstanceAsDelimitedString(String delimiter) {
-        return String.format(Locale.ENGLISH, "%s" + delimiter + "%s" + delimiter + "%d", sender, frase.getContenido(), epochSeconds);
+    public void setFrase(Frase frase) {
+        this.frase = frase;
     }
 
-    public static String getFechaFromEpoch(long epochSeconds, String pattern) {
-        LocalDateTime dateTime = LocalDateTime.ofEpochSecond(epochSeconds, 0, ZoneOffset.UTC);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH);
-        
-        return dateTime.format(formatter);
+    public long getEpochSeconds() {
+        return epochSeconds;
     }
+    
 }

@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.Locale;
 import com.coti.tools.Esdia;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
  *
  * @author Alvaro
  */
-@JacksonXmlRootElement(localName = "Conversacion")
 public class Conversacion implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -24,7 +24,6 @@ public class Conversacion implements Serializable {
     private String nombreChat;
     private long fechaInicioSegs;
     private long fechaFinSegs;
-    @JacksonXmlElementWrapper(localName = "mensajes")
     private ArrayList<Message> mensajes;
 
     public Conversacion(String nombreChat, ArrayList<Message> mensajes, long fechaInicioSegs, long fechaFinSegs) {
@@ -40,6 +39,9 @@ public class Conversacion implements Serializable {
         this.nombreChat = nombreChat;
     }
 
+    public Conversacion() {
+    }
+
     public String estadoConversacion() {
         return fechaInicioSegs + " | " + mensajes.size() + " | " + mensajes.get(0).sacar20Chars();
     }
@@ -48,7 +50,7 @@ public class Conversacion implements Serializable {
         if (mensajes.isEmpty()) {
             System.out.println("La conversacion esta vacia");
         } else {
-            System.out.println("Conversacion del " + Message.getFechaFromEpoch(fechaInicioSegs,"dd:MMM:yyyy: hh:mm:ss"));
+            System.out.println("Conversacion del " + Message.getFechaFromEpoch(fechaInicioSegs, "dd:MMM:yyyy: hh:mm:ss"));
             for (Message mensaje : mensajes) {
                 System.out.println(mensaje.toString());
             }
@@ -70,6 +72,30 @@ public class Conversacion implements Serializable {
 
     public String getNombreChat() {
         return nombreChat;
+    }
+
+    public ArrayList<Message> getMensajes() {
+        return mensajes;
+    }
+
+    public void setMensajes(ArrayList<Message> mensajes) {
+        this.mensajes = mensajes;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public long getFechaInicioSegs() {
+        return fechaInicioSegs;
+    }
+
+    public long getFechaFinSegs() {
+        return fechaFinSegs;
+    }
+
+    public void setNombreChat(String nombreChat) {
+        this.nombreChat = nombreChat;
     }
 
 }

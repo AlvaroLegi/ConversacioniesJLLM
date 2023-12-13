@@ -39,7 +39,7 @@ public class ConversacionesJLLM {
             v = getView(args[2]);
         } else {
             //Default
-            repository = new JSONRepository();
+            repository = new XMLRepository();
             llm = new RandomCSVLLM();
             v = new VistaConsola();
         }

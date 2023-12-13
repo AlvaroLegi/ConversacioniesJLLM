@@ -165,4 +165,5 @@ public class VistaConsola extends ApplicationView {
     private void cargarEstadoApp() {
 
     }
+
 }

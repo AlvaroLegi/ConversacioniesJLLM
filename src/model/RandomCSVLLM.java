@@ -57,7 +57,7 @@ public class RandomCSVLLM implements ILLM {
             }
         } catch (IOException e) {
             System.err.println("Se ha producido un error importando las frases del CSV");
-            throw new Exception("ERROR" + e.getMessage(), e);
+            throw new Exception("ERROR: " + e.getMessage(), e);
         }
         this.frases = frases;
     }
